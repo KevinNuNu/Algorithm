@@ -1,14 +1,11 @@
 # -*- coding:utf-8 -*-
-class Solution:
-    def __init__(self):
-        self.data = None
-        self.copy = None
-
-    def InversePairs(self, data):
-        # write code here
+class MergeSort:
+    def __init__(self, data):
         self.data = data
         self.copy = data.copy()
-        self.mergesort(0, len(data)-1)
+
+    def run(self):
+        self.mergesort(0, len(self.data) - 1)
         return self.data
 
     def mergesort(self, start, end):
@@ -38,5 +35,6 @@ class Solution:
 
 
 if __name__ == "__main__":
-    s = Solution()
-    print(s.InversePairs([7,4,5,6]))
+    # 归并排序
+    s = MergeSort([1, 7, 4, 3, 10, 5, 6])
+    print(s.run())
