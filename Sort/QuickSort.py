@@ -4,16 +4,20 @@ class QuickSort:
         self.data = data
 
     def run(self):
-        self.quicksort(0, len(self.data)-1)
+        self.quicksort2(0, len(self.data)-1)
         return self.data
 
-    def quicksort(self, left, right):
+    def quicksort1(self, left, right):
+        # 这种快排的思路是：
+        # 取序列第一个值作为key
+        # 找到序列里“左边比key大，右边比key小”的值互换
+        # 最后两个指针交汇的值(一定比key小)与key互换
         if left > right:
             return
         i, j = left, right
         key = self.data[left]
         while i != j:
-            # 注意此处先指针j移动还是指针i移动是有顺序的
+            # 注意此处先指针j移动还是指针i移动是有顺序的(归根结底是因为key的选择是序列左数第一个)
             # 因为我们的目的是将数据划分为：key的左边比key小，key的右边比key大
             # 最后将self.data[left]和self.data[i]互换意味着将小于key的self.data[i]扔到key的左边
             # 所以一定要指针j先动使得最终指针指向的位置停留在一个比key小的位置上
@@ -25,11 +29,30 @@ class QuickSort:
             if i < j:
                 self.data[i], self.data[j] = self.data[j], self.data[i]
         self.data[left], self.data[i] = self.data[i], self.data[left]
-        self.quicksort(left, i-1)
-        self.quicksort(i+1, right)
+        self.quicksort1(left, i-1)
+        self.quicksort1(i+1, right)
+
+    def quicksort2(self, left, right):
+        # Hoare版本快排
+        # 核心思想，不再是最后换key，而是每次都是和key交换
+        # 找到右边比key小的，直接和key换，接着找到左边比key大的，再和key换
+        # 直到指针i和指针j指向同一位置，此时key也换到了最佳的位置，左边都比key小，右边都比key大
+        if left > right:
+            return
+        i, j = left, right
+        key = self.data[left]
+        while i < j:
+            while self.data[j] >= key and i < j:
+                j -= 1
+            self.data[j], self.data[i] = self.data[i], self.data[j]
+            while self.data[i] <= key and i < j:
+                i += 1
+            self.data[i], self.data[j] = self.data[j], self.data[i]
+        self.quicksort2(left, i-1)
+        self.quicksort2(i+1, right)
 
 
 if __name__ == "__main__":
     # 快速排序
-    s = QuickSort([10, 5, 6, 1, 7, 4, 3, 23, 14])
+    s = QuickSort([7, 8, 9, 10, 6, 5])
     print(s.run())
