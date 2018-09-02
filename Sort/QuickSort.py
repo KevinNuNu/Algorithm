@@ -4,7 +4,7 @@ class QuickSort:
         self.data = data
 
     def run(self):
-        self.quicksort2(0, len(self.data)-1)
+        self.quicksort3(0, len(self.data)-1)
         return self.data
 
     def quicksort1(self, left, right):
@@ -51,8 +51,27 @@ class QuickSort:
         self.quicksort2(left, i-1)
         self.quicksort2(i+1, right)
 
+    def quicksort3(self, left, right):
+        # Hoare版本快排（优化版）
+        # 找到一个比key小或者比key大的值后，不再是交换两者，而是改成赋值
+        # 最后再把key值赋给“指针i=指针j”的位置
+        if left > right:
+            return
+        i, j = left, right
+        key = self.data[left]
+        while i < j:
+            while self.data[j] >= key and i < j:
+                j -= 1
+            self.data[i] = self.data[j]
+            while self.data[i] <= key and i < j:
+                i += 1
+            self.data[j] = self.data[i]
+        self.data[i] = key
+        self.quicksort3(left, i-1)
+        self.quicksort3(i+1, right)
+
 
 if __name__ == "__main__":
     # 快速排序
-    s = QuickSort([7, 8, 9, 10, 6, 5])
+    s = QuickSort([7, 8, 9, 10, 6, 5, 1, 3, 4, 2])
     print(s.run())
