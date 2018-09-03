@@ -2,6 +2,7 @@
 class QuickSort:
     def __init__(self, data):
         self.data = data
+        self.max_length_insert_sort = 7
 
     def run(self):
         self.quicksort3(0, len(self.data)-1)
@@ -53,22 +54,41 @@ class QuickSort:
 
     def quicksort3(self, left, right):
         # Hoare版本快排（优化版）
-        # 找到一个比key小或者比key大的值后，不再是交换两者，而是改成赋值
-        # 最后再把key值赋给“指针i=指针j”的位置
-        if left > right:
-            return
-        i, j = left, right
-        key = self.data[left]
-        while i < j:
-            while self.data[j] >= key and i < j:
-                j -= 1
-            self.data[i] = self.data[j]
-            while self.data[i] <= key and i < j:
-                i += 1
-            self.data[j] = self.data[i]
-        self.data[i] = key
-        self.quicksort3(left, i-1)
-        self.quicksort3(i+1, right)
+        # 1.优化小数组时的排序方案：排序序列长度小于阈值（此处设为7）时采用直接插入排序
+        if right - left + 1 > self.max_length_insert_sort:
+            while left < right:
+                i, j = left, right
+                key = self.data[left]
+                # 2.优化不必要的交换：改交换为赋值，最后再把key值赋给“指针i=指针j”的位置
+                while i < j:
+                    while self.data[j] >= key and i < j:
+                        j -= 1
+                    self.data[i] = self.data[j]
+                    while self.data[i] <= key and i < j:
+                        i += 1
+                    self.data[j] = self.data[i]
+                self.data[i] = key
+                # 3.优化递归操作：改尾部两个递归为尾递归
+                self.quicksort3(left, i - 1)
+                left = i + 1
+        else:
+            self.data[left:right + 1] = straightinsertionsort(self.data[left:right + 1])
+
+
+# 直接插入排序
+def straightinsertionsort(data):
+    for i in range(1, len(data)):
+        if data[i] < data[i-1]:
+            temp = data[i]
+            j = i - 1
+            while j >= 0:
+                if data[j] > temp:
+                    data[j+1] = data[j]
+                    j -= 1
+                else:
+                    break
+            data[j+1] = temp
+    return data
 
 
 if __name__ == "__main__":
