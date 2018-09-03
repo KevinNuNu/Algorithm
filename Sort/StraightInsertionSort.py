@@ -11,12 +11,13 @@ class StraightInsertionSort:
         for i in range(1, len(self.data)):
             if self.data[i] < self.data[i-1]:
                 temp = self.data[i]
-                for j in range(-1, i)[::-1]:
-                    if j >= 0:
-                        if self.data[j] > temp:
-                            self.data[j+1] = self.data[j]
-                        else:
-                            break
+                j = i - 1
+                while j >= 0:
+                    if self.data[j] > temp:
+                        self.data[j+1] = self.data[j]
+                        j -= 1
+                    else:
+                        break
                 self.data[j+1] = temp
 
 
