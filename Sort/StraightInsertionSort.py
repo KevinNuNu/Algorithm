@@ -9,13 +9,12 @@ class StraightInsertionSort:
 
     def straightinsertionsort(self):
         for i in range(1, len(self.data)):
-            if self.data[i] < self.data[i-1]:
-                temp = self.data[i]
-                j = i - 1
-                while j >= 0 and self.data[j] > temp:
-                    self.data[j+1] = self.data[j]
-                    j -= 1
-                self.data[j+1] = temp
+            temp = self.data[i]
+            j = i
+            while j >= 1 and self.data[j-1] > temp:
+                self.data[j] = self.data[j-1]
+                j -= 1
+            self.data[j] = temp
 
 
 if __name__ == "__main__":
