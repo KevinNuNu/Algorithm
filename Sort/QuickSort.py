@@ -17,7 +17,7 @@ class QuickSort:
             return
         i, j = left, right
         key = self.data[left]
-        while i != j:
+        while i < j:
             # 注意此处先指针j移动还是指针i移动是有顺序的(归根结底是因为key的选择是序列左数第一个)
             # 因为我们的目的是将数据划分为：key的左边比key小，key的右边比key大
             # 最后将self.data[left]和self.data[i]互换意味着将小于key的self.data[i]扔到key的左边

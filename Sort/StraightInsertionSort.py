@@ -18,6 +18,6 @@ class StraightInsertionSort:
 
 
 if __name__ == "__main__":
-    # 简单选择排序
+    # 直接插入排序
     s = StraightInsertionSort([2, 1, 3, 4, 5, 9, 8, 7, 6])
     print(s.run())
